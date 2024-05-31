@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block title %}Vota{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h1 class="card-title text-center">{{ question.question_text }}</h1>
+                    {% if error_message %}
+                    <div class="alert alert-danger" role="alert">
+                        {{ error_message }}
+                    </div>
+                    {% endif %}
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="form-check">
+                            {% for choice in question.choice_set.all %}
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}">
+                                <label class="form-check-label" for="choice{{ forloop.counter }}">
+                                    {{ choice.choice_text }}
+                                </label>
+                            </div>
+                            {% endfor %}
+                        </div>
+                        <div class="text-center mt-4">
+                            <button type="submit" class="btn btn-primary">Votar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
